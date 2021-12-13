@@ -6,6 +6,7 @@ const userPassword = document.getElementById('user-password');
 const userEmail = document.getElementById('user-email');
 const userAddress = document.getElementById('user-address');
 const userPhone = document.getElementById('user-phone');
+const texto = document.getElementById('texto');
 
 //Send POST to API to add store
 async function addUser(e) {
@@ -35,6 +36,7 @@ async function addUser(e) {
         });
         console.log(sendBody)
         if(res.status === 400){
+          // alert('holi');
           throw Error('Store alredy exist.');
         }
     
@@ -47,4 +49,16 @@ async function addUser(e) {
       }
 }
 
-userForm.querySelector('#post').addEventListener('click', addUser)
+async function getUser(e) {
+  e.preventDefault();
+
+  const res = await fetch('/api/users');
+  const users = await res.json();
+
+  const strings = users.map(user => JSON.stringify(user,null,4));
+  console.log(strings);
+  texto.innerText = strings;
+}
+
+userForm.querySelector('#post').addEventListener('click', addUser);
+userForm.querySelector('#get').addEventListener('click', getUser);
