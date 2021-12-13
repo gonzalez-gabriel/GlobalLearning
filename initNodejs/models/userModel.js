@@ -6,14 +6,14 @@ const {Schema} = mongoose;
 
 const userModel = new Schema(
     {
-        firstName: { type: String },
-        lastName: { type: String },
-        userName: { type: String },
-        password: { type: String, select: false},
-        email: { type: String, unique: true, lowercase: true},
-        address: { type: String },
-        phone: { type: Number }
-        // signupDate: {type: Date, default: Date.now()}
+        firstName: { type: String, required:true },
+        lastName: { type: String, required:true },
+        userName: { type: String, required:true },
+        password: { type: String, select: false, required:true},
+        email: { type: String, unique: true, lowercase: true, required:true},
+        address: { type: String, required:true },
+        phone: { type: Number, required:true },
+        signupDate: {type: Date, default: Date.now()}
     }
 )
 

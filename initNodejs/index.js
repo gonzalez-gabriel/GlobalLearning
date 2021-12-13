@@ -5,6 +5,7 @@ const Book = require('./models/bookModel');
 const User = require('./models/userModel');
 const bodyParser = require('body-parser');//el body es el cuerpo del msj, el contenido, 
 //parser lo convierte a formato de json (conveccion para escribir un objeto) para poder usarlo
+const path = require('path');
 
 const bookRouter = require('./routes/bookRouter')(Book);
 const userRouter = require('./routes/userRouter')(User);
@@ -12,6 +13,7 @@ const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/bookAPI');
 
+app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api', bookRouter);

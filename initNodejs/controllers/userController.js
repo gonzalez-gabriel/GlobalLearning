@@ -1,8 +1,3 @@
-// const storeForm = document.getElementById('store-form');
-// const storeLastName = document.getElementById('store-lastName');
-// const storeAddress = document.getElementById('store-address');
-// const storeName = document.getElementById('store-name');
-
 const UsersController = (User) => {
 
     const getUsers = async (req, res) => {
@@ -14,17 +9,15 @@ const UsersController = (User) => {
         // res.json(response);
     }
     const postUsers = async (req, res) => {
-        const user = new User(req.body);
-        await user.save();
-        res.json(user);
-        // const user = new User({
-        //     firstName: storeForm.value,
-        //     lastName: storeLastName.value,
-        //     userName: storeName.value,
-        //     address: storeAddress.value
-        // });
-        // await user.save();
-        // res.json(user);
+        try{
+            const user = new User(req.body);
+            await user.save();
+            res.json(user);
+
+        }catch(err){
+            console.log(err.name);
+            
+        }
     }
 
     const getUserById = async(req, res) => {
