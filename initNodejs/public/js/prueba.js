@@ -9,13 +9,11 @@ const userPhone = document.getElementById('user-phone');
 const userId = document.getElementById('user-id');
 const texto = document.getElementById('texto');
 
-//Send POST to API to add store
+
 async function addUser(e) {
     e.preventDefault();
 
-    if(userFirstName.value ==='' || userLastName.value ==='' || userName.value ==='' || userPassword.value ==='' || userEmail.value ==='' || userAddress.value ==='' || userPhone.value ==='' ) {
-        alert('Porfa llena los campos');
-    }
+    
 
     const sendBody = {
         firstName: userFirstName.value,
@@ -24,7 +22,7 @@ async function addUser(e) {
         password: userPassword.value,
         email: userEmail.value,
         address: userAddress.value,
-        phone: userPhone.value
+        phone: userPhone.value,
     }
 
     try {
@@ -33,20 +31,27 @@ async function addUser(e) {
           headers: { 
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(sendBody)
+          body: JSON.stringify(sendBody),
         });
-        console.log(sendBody)
+        // location.reload();  
+
         if(res.status === 400){
-          // alert('holi');
-          throw Error('User alredy exist.');
+          res.text().then(text => {
+            const obj = JSON.parse(text);
+            const msg = Object.values(obj);
+            // .map(item => `ERROR: ${item}.`);
+            throw new Error(`ERROR: ${msg}`);
+          })
+          .catch(err => {
+            alert(err.message);
+          });
         }
     
         // alert('Store added!');
         // window.location.href = 'index.html';
-        location.reload();
 
       } catch (err) {
-        alert(err);
+        alert(err.message);
         return;
       }
 }
@@ -89,8 +94,8 @@ async function putUser(e) {
         },
         body: JSON.stringify(sendBody)
       });
-      console.log(sendBody)
-      if(res.status === 400){
+      console.log(res.status);
+      if(res.status === 500){
         // alert('holi');
         throw Error('User alredy exist.');
       }
@@ -102,6 +107,8 @@ async function putUser(e) {
       alert(err);
       return;
     }
+    // location.reload();
+
 }
 async function deleteUser(e) {
   e.preventDefault();

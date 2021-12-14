@@ -13,10 +13,13 @@ const UsersController = (User) => {
             const user = new User(req.body);
             await user.save();
             res.json(user);
-
         }catch(err){
-            console.log(err.name);
-            
+            if(err.name === "ValidationError"){
+                const errorObj = {};
+                const keyError = Object.keys(err.errors)[0];
+                errorObj[keyError] = err.errors[keyError].message;
+                res.status(400).send(errorObj);   
+            }         
         }
     }
 
